@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>이영빈 · 백엔드 개발자 포트폴리오</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EEF1F5; --surface:#FFFFFF; --ink:#13202D; --muted:#5B6878; --line:#D5DCE4;
+  --accent:#2350E6; --accent-soft:#E3E9FD; --award:#B7791F; --award-soft:#FBF1DE;
+  --sans:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0E151D; --surface:#16202B; --ink:#E7ECF2; --muted:#93A1B1; --line:#283545;
+    --accent:#7F9CFF; --accent-soft:#1D2A4A; --award:#E7B45A; --award-soft:#3A2D14;
+    color-scheme:dark;
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.65;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:break-word;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+a{color:var(--accent)}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+
+/* views */
+.view{display:none;min-height:100vh;padding:clamp(24px,5vw,64px)}
+.view.active{display:block;animation:enter .45s cubic-bezier(.2,.7,.2,1)}
+@keyframes enter{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.wrap{max-width:1040px;margin:0 auto}
+
+/* cover */
+#home{display:none;flex-direction:column;justify-content:space-between}
+#home.active{display:flex}
+.cover-top{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:13px;color:var(--muted)}
+.cover-top a{color:var(--muted);text-decoration:none}
+.cover-top a:hover{color:var(--accent)}
+.hero{margin:clamp(40px,10vh,110px) 0 clamp(32px,6vh,64px)}
+.role::after{content:"";display:inline-block;width:.55em;height:1.05em;margin-left:4px;vertical-align:-3px;background:var(--accent);animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.role{font-family:var(--mono);font-size:clamp(13px,1.6vw,15px);color:var(--accent);margin-bottom:18px;min-height:1.4em}
+.name{font-size:clamp(64px,15vw,168px);font-weight:800;letter-spacing:-.04em;line-height:.95}
+.name span{display:inline-block;min-width:.6em}
+.name .scr{font-family:var(--mono);font-weight:600;color:var(--accent)}
+.tagline{margin-top:28px;font-size:clamp(18px,2.4vw,24px);max-width:36ch;color:var(--ink);opacity:0;transition:opacity .8s .2s}
+.tagline.on{opacity:1}
+.tabs{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));border-top:1px solid var(--ink)}
+.tab{display:flex;flex-direction:column;justify-content:flex-start;text-align:left;padding:22px 18px 26px 0;border-bottom:1px solid var(--line);position:relative;transition:padding .25s}
+.tab+.tab{padding-left:18px;border-left:1px solid var(--line)}
+.tab h2{font-size:20px;font-weight:700;margin-bottom:6px}
+.tab p{font-size:14px;color:var(--muted);line-height:1.5}
+.tab .count{position:absolute;top:22px;right:18px;font-family:var(--mono);font-size:13px;color:var(--muted)}
+.tab::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:3px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.tab+.tab::after{left:-1px}
+.tab:hover::after,.tab:focus-visible::after{transform:scaleX(1)}
+.tab:hover h2{color:var(--accent)}
+
+/* inner pages */
+.bar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-bottom:18px;border-bottom:1px solid var(--line);margin-bottom:clamp(28px,5vw,48px)}
+.back{font-size:15px;color:var(--muted);display:inline-flex;align-items:center;gap:8px}
+.back:hover{color:var(--accent)}
+.back svg{width:18px;height:18px}
+.crumbs{display:flex;gap:4px;flex-wrap:wrap}
+.crumbs button{font-size:14px;padding:6px 12px;border-radius:999px;color:var(--muted)}
+.crumbs button[aria-current="page"]{background:var(--ink);color:var(--bg)}
+.crumbs button:hover:not([aria-current]){color:var(--ink)}
+h1.page{font-size:clamp(34px,6vw,56px);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:10px}
+.lede{font-size:18px;color:var(--muted);max-width:60ch;margin-bottom:40px}
+.block{margin-bottom:44px}
+.block>h3{font-size:15px;color:var(--muted);font-weight:600;margin-bottom:14px}
+.rows{border-top:1px solid var(--line)}
+.row{display:grid;grid-template-columns:150px 1fr;gap:20px;padding:18px 0;border-bottom:1px solid var(--line)}
+.row .when{font-family:var(--mono);font-size:13px;color:var(--muted);padding-top:3px}
+.row h4{font-size:18px;font-weight:700}
+.row p{color:var(--muted);font-size:15px}
+.badge{display:inline-block;font-size:12.5px;font-weight:600;padding:2px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent);margin-left:8px;vertical-align:2px}
+.badge.award{background:var(--award-soft);color:var(--award)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:14px;padding:6px 12px;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+.skillgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:32px}
+
+/* project list */
+.plist{border-top:1px solid var(--ink)}
+.pitem{display:grid;grid-template-columns:120px 1fr auto;gap:20px;align-items:baseline;width:100%;text-align:left;padding:22px 0;border-bottom:1px solid var(--line);transition:background .2s,padding .25s}
+.pitem:hover{padding-left:12px;background:var(--surface)}
+.pitem .when{font-family:var(--mono);font-size:13px;color:var(--muted)}
+.pitem h4{font-size:clamp(19px,2.4vw,24px);font-weight:700;letter-spacing:-.01em}
+.pitem p{color:var(--muted);font-size:15px;margin-top:2px}
+.pitem .role-tag{font-size:14px;color:var(--muted);white-space:nowrap}
+
+/* project detail */
+.meta{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:14px;color:var(--muted);margin-bottom:22px}
+.cols{display:grid;grid-template-columns:1.2fr 1fr;gap:clamp(24px,4vw,56px)}
+ul.clean{list-style:none}
+ul.clean li{padding:10px 0 10px 18px;border-bottom:1px solid var(--line);position:relative}
+ul.clean li::before{content:"";position:absolute;left:0;top:20px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.flow{display:flex;flex-direction:column;gap:0}
+.flow div{padding:12px 16px;background:var(--surface);border:1px solid var(--line);border-radius:6px;font-size:15px}
+.flow i{display:block;width:1px;height:16px;background:var(--line);margin-left:24px}
+.ts{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:6px;padding:20px 22px;margin-bottom:16px}
+.ts h5{font-size:17px;margin-bottom:10px}
+.ts dl{display:grid;grid-template-columns:44px 1fr;gap:6px 12px;font-size:15px}
+.ts dt{font-weight:700;color:var(--accent)}
+.ts dd{color:var(--ink)}
+.note{font-size:13px;color:var(--muted);margin-top:12px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--line)}
+.pager button{font-size:15px;color:var(--muted);text-align:left}
+.pager button:last-child{text-align:right}
+.pager button:hover{color:var(--accent)}
+.pager small{display:block;font-size:12px}
+
+@media (max-width:720px){
+  .row,.pitem{grid-template-columns:1fr;gap:4px}
+  .pitem .role-tag{white-space:normal}
+  .cols{grid-template-columns:1fr}
+  .tab+.tab{padding-left:0;border-left:0}
+  .tab .count{right:0}
+  .tab+.tab::after{left:0}
+}
+@media (prefers-reduced-motion: reduce){
+  .view.active{animation:none}
+  .tagline{transition:none}
+  .role::after{animation:none}
+  .tab::after,.pitem{transition:none}
+}
+@media print{
+  .view{display:block!important;page-break-after:always}
+  .bar .crumbs,.pager{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<section id="home" class="view" aria-label="표지">
+  <div class="wrap" style="width:100%">
+    <div class="cover-top">
+      <span>Backend Developer · 2027.02 졸업예정</span>
+      <span><a href="https://github.com/youngbin111" target="_blank" rel="noopener">github.com/youngbin111</a> &nbsp;/&nbsp; <a href="mailto:dwbhyoungqlsl@naver.com">dwbhyoungqlsl@naver.com</a></span>
+    </div>
+    <div class="hero">
+      <p class="role" id="role"></p>
+      <h1 class="name" id="name" aria-label="이영빈"></h1>
+      <p class="tagline" id="tagline">API 설계부터 AI 파이프라인, 보안까지. 문제를 구조로 풀어내는 백엔드 개발자입니다.</p>
+    </div>
+  </div>
+  <nav class="wrap tabs" style="width:100%" aria-label="포트폴리오 메뉴">
+    <button class="tab" data-go="about"><h2>소개·학력</h2><p>어떤 개발자인지, 어디서 배웠는지</p></button>
+    <button class="tab" data-go="projects"><span class="count">6</span><h2>프로젝트</h2><p>AI 분석부터 실서비스 운영까지</p></button>
+    <button class="tab" data-go="security"><h2>보안 연구·활동</h2><p>시스템보안연구실, 보안 동아리</p></button>
+    <button class="tab" data-go="skills"><h2>기술 스택</h2><p>언어, 프레임워크, AI, 인프라</p></button>
+    <button class="tab" data-go="awards"><h2>수상·자격증</h2><p>우수상, 장려상, SQLD 외</p></button>
+  </nav>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="view" aria-label="소개·학력"><div class="wrap">
+  <div class="bar" data-bar></div>
+  <h1 class="page">소개·학력</h1>
+  <p class="lede">OCR·LLM·RAG 기반 AI 서비스부터 API 서버, 크로스플랫폼 앱까지 여러 팀 프로젝트에서 백엔드와 AI 분석 로직을 맡아왔습니다. 문제 정의부터 아키텍처 설계, 트러블슈팅까지 끝까지 책임지는 개발을 지향합니다.</p>
+  <div class="block">
+    <h3>학력</h3>
+    <div class="rows">
+      <div class="row"><span class="when">~ 2027.02</span><div><h4>명지대학교 컴퓨터공학과<span class="badge">졸업예정</span></h4><p>학사</p></div></div>
+      <div class="row"><span class="when">2019.03 – 2022.02</span><div><h4>성문고등학교</h4><p>졸업</p></div></div>
+    </div>
+  </div>
+  <div class="block">
+    <h3>한눈에 보기</h3>
+    <div class="rows">
+      <div class="row"><span class="when">프로젝트</span><div><h4>팀 프로젝트 6건 참여</h4><p>그중 4건에서 백엔드·AI 로직 담당, 2건에서 팀장</p></div></div>
+      <div class="row"><span class="when">연구</span><div><h4>시스템보안연구실 학부연구생</h4><p>방산기업 산학과제 수행, CMMC 보안 인증 웹 유지보수</p></div></div>
+      <div class="row"><span class="when">수상</span><div><h4>캡스톤디자인 우수상 · 교내 공모전 장려상</h4><p>AI 부동산 안전 플랫폼, PC 관리 앱</p></div></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- PROJECTS -->
+<section id="projects" class="view" aria-label="프로젝트"><div class="wrap">
+  <div class="bar" data-bar></div>
+  <h1 class="page">프로젝트</h1>
+  <p class="lede">항목을 누르면 문제 정의, 구조, 트러블슈팅을 볼 수 있습니다.</p>
+  <div class="plist" id="plist"></div>
+</div></section>
+
+<!-- PROJECT DETAIL -->
+<section id="project" class="view" aria-label="프로젝트 상세"><div class="wrap">
+  <div class="bar" data-bar></div>
+  <div id="pdetail"></div>
+</div></section>
+
+<!-- SECURITY -->
+<section id="security" class="view" aria-label="보안 연구·활동"><div class="wrap">
+  <div class="bar" data-bar></div>
+  <h1 class="page">보안 연구·활동</h1>
+  <p class="lede">보안 동아리에서 공격 기법을 공부했고, 연구실에서 실제 산업체 보안 과제를 수행했습니다.</p>
+  <div class="block">
+    <h3>시스템보안연구실 학부연구생 · 2026.01 – 현재</h3>
+    <div class="cols">
+      <div>
+        <h4 style="font-size:20px;margin-bottom:4px">안티템퍼링 검증 웹<span class="badge">2026.06 – 08 완료</span></h4>
+        <p style="color:var(--muted);margin-bottom:12px">방산기업 산학과제</p>
+        <ul class="clean">
+          <li>국내 주요 방산기업의 Anti-Tampering(변조 방지) 관련 검증 과제</li>
+          <li>검증 웹 화면(HTML/CSS) 구현을 개인이 전담</li>
+        </ul>
+        <p class="note">사내 과제 특성상 회사명과 세부 내용은 제한적으로 표기했습니다.</p>
+      </div>
+      <div>
+        <h4 style="font-size:20px;margin-bottom:4px">CMMC 보안 인증 웹 유지보수<span class="badge">진행 중</span></h4>
+        <p style="color:var(--muted);margin-bottom:12px">기존 사이트 인수 후 운영</p>
+        <ul class="clean">
+          <li>운영 서버 HTTPS 전환</li>
+          <li>관리 계정 MFA(2단계 인증) 인수</li>
+          <li>변경 사항은 로컬 테스트 환경에서 먼저 검증한 뒤 운영 서버에 반영</li>
+          <li>타인이 작성한 코드베이스를 파악하고 기능을 개선</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="block">
+    <h3>보안 동아리</h3>
+    <div class="rows">
+      <div class="row"><span class="when">스터디</span><div><h4>리버싱 · 포너블 · 디지털 포렌식 · 웹해킹</h4><p>네 분야 스터디에 참여하며 취약점이 생기는 원리를 익혔고, 이를 안전한 코드를 작성하는 기준으로 삼고 있습니다.</p></div></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- SKILLS -->
+<section id="skills" class="view" aria-label="기술 스택"><div class="wrap">
+  <div class="bar" data-bar></div>
+  <h1 class="page">기술 스택</h1>
+  <p class="lede">프로젝트에서 실제로 사용한 기술입니다.</p>
+  <div class="skillgrid">
+    <div class="block"><h3>Language</h3><div class="chips"><span class="chip">Python</span><span class="chip">Java</span><span class="chip">JavaScript / TypeScript</span><span class="chip">Dart</span></div></div>
+    <div class="block"><h3>Framework</h3><div class="chips"><span class="chip">FastAPI</span><span class="chip">Django</span><span class="chip">React</span><span class="chip">Flutter</span></div></div>
+    <div class="block"><h3>AI / Data</h3><div class="chips"><span class="chip">OCR (CLOVA OCR)</span><span class="chip">LLM 연동 분석</span><span class="chip">RAG · FAISS</span><span class="chip">LangChain</span><span class="chip">PyMuPDF</span></div></div>
+    <div class="block"><h3>DB / Infra</h3><div class="chips"><span class="chip">MySQL</span><span class="chip">JWT 인증</span><span class="chip">HTTPS 적용</span><span class="chip">Swagger (OpenAPI)</span><span class="chip">Git / GitHub</span></div></div>
+    <div class="block"><h3>개발 도구</h3><div class="chips"><span class="chip">Cursor</span><span class="chip">Claude</span></div></div>
+  </div>
+</div></section>
+
+<!-- AWARDS -->
+<section id="awards" class="view" aria-label="수상·자격증"><div class="wrap">
+  <div class="bar" data-bar></div>
+  <h1 class="page">수상·자격증</h1>
+  <p class="lede">&nbsp;</p>
+  <div class="block">
+    <h3>수상</h3>
+    <div class="rows">
+      <div class="row"><span class="when">2026</span><div><h4>캡스톤디자인 우수상<span class="badge award">우수상</span></h4><p>AI 부동산 안전 플랫폼 BANGUARD · AI/RAG 분석 로직 담당</p></div></div>
+      <div class="row"><span class="when">2025</span><div><h4>교내 공모전 장려상<span class="badge award">장려상</span></h4><p>PC 관리 앱 CleanBoost · 팀장, AI 코딩 도구(Cursor) 활용</p></div></div>
+    </div>
+  </div>
+  <div class="block">
+    <h3>자격증</h3>
+    <div class="rows">
+      <div class="row"><span class="when">취득</span><div><h4>SQL 개발자 (SQLD)</h4><p>한국데이터산업진흥원</p></div></div>
+      <div class="row"><span class="when">실기 응시</span><div><h4>정보처리기사<span class="badge">결과 대기</span></h4><p>한국산업인력공단 · 필기 합격</p></div></div>
+    </div>
+  </div>
+</div></section>
+
+<script>
+const PROJECTS=[
+ {id:"banguard",when:"2026",name:"BANGUARD",sub:"AI 부동산 계약 위험분석 · 정책 RAG 챗봇",role:"AI/RAG 로직 · 우수상",
+  meta:["캡스톤디자인","4인 팀","본인 역할: OCR·LLM 계약분석 + RAG 정책 챗봇"],award:"우수상",
+  stack:["React/TS","FastAPI","OCR","LLM","FAISS·RAG","JWT"],
+  overview:"전세사기 피해와 정보 비대칭 문제를 겪는 대학생·사회초년생을 위해, 계약서·등기부등본의 위험 요소를 자동 분석하고 청년 주거정책을 자연어로 탐색할 수 있게 만든 AI 기반 주거 안전 플랫폼입니다.",
+  features:["OCR+LLM 하이브리드 분석: 보증금·근저당 같은 정형 데이터는 규칙 기반, 특약사항 같은 비정형 데이터는 LLM으로 분리 처리","RAG 정책 챗봇: 온통청년·LH·HF 공공 API 문서 487건을 자동 수집해 FAISS로 색인, 자연어 질의응답","위험도 대시보드: 근저당 비율 등을 신호등 색상으로 표시","AUTH/ANALYSIS/CHAT/COMMUNITY 도메인 분리 DB 설계와 JWT 인증"],
+  flow:["계약서·등기부등본 업로드","OCR 텍스트 추출","정형: 규칙 기반 / 비정형: LLM 분석","위험도 대시보드 표시"],
+  pipeline:"온통청년 261건 · LH 200건 · HF 26건, 총 487건. PyMuPDF로 추출·청킹 후 FAISS 색인, 매일 새벽 2시 자동 재인덱싱.",
+  ts:[{t:"계약서 전체를 LLM으로만 분석하면 비용과 응답 속도 문제",c:"계약서 전체를 생성형 AI로 처리하면 API 비용이 늘고 응답이 느려짐",s:"정형 데이터는 OCR+규칙 기반, 문맥 해석이 필요한 비정형 데이터만 LLM으로 분리하는 하이브리드 구조 채택",r:"분석 비용과 응답 속도, 문맥 정확도를 함께 확보"},
+      {t:"정책 챗봇의 환각과 정보 최신성 부족",c:"정책 정보가 여러 기관에 흩어져 있고 자주 바뀌어, PDF를 수동으로 관리하면 최신성 유지가 어려움",s:"온통청년은 PDF 링크를 동적으로 받아 인덱싱 때만 임시 다운로드, LH·HF는 JSON/XML을 직접 파싱하는 멀티 클라이언트 수집 구조로 개편하고 매일 자동 재인덱싱",r:"487건 문서 기반 RAG로 응답 신뢰성 확보, 응답 출처를 저장해 검증 가능"}]},
+ {id:"monologue",when:"2026.01 – 03",name:"Monologue",sub:"AI 기반 한국 도서 추천 독서록",role:"백엔드 팀장",
+  meta:["4인 팀","본인 역할: 백엔드 팀장"],stack:["Django","React"],
+  overview:"사용자가 쓴 독서 감상문을 분석해 어울리는 한국 책을 추천하는 서비스입니다.",
+  features:["감상문 텍스트를 분석해 감정과 취향 파악","분석 결과를 바탕으로 국내 도서 추천","에디터 큐레이션 추천 목록 제공"],
+  rolelist:["Django 기반 API 서버 설계 총괄","감상문 텍스트에서 추천 로직으로 이어지는 데이터 흐름 설계","React 프론트엔드와의 API 연동 구조 정의"]},
+ {id:"cleanboost",when:"2025.07 – 09",name:"CleanBoost",sub:"컴퓨터에 익숙하지 않은 사람을 위한 PC 관리 앱",role:"팀장 · 장려상",
+  meta:["교내 공모전","4인 팀","본인 역할: 팀장, 개발·기획·발표 총괄"],award:"장려상",stack:["Python","Android/iOS 대응","Cursor"],
+  overview:"파일 정리와 실시간 성능 모니터링을 쉬운 말로 설명해 주는 크로스플랫폼 앱입니다. AI 코딩 도구 Cursor를 활용해 반복 작업을 줄이고 핵심 로직 설계와 검증에 집중했습니다.",
+  features:["파일명 입력 시 불필요하거나 삭제 가능한 파일인지 판별","CPU·메모리 등 PC 성능 실시간 모니터링","하드웨어 용어를 비전공자도 이해할 수 있게 설명"],
+  ts:[{t:"실시간 수치가 불안정하게 표시됨",c:"CPU·메모리 값을 측정할 때 지연 때문에 값이 흔들림",s:"측정값에 보정 로직을 적용해 지연으로 인한 오차를 줄임",r:"안정적인 실시간 성능 지표 표시"}],
+  learn:"소프트웨어 중심 학습에서 시스템 리소스 영역까지 범위를 넓혔고, 타 전공 팀원과 협업하며 소통 능력을 길렀습니다."},
+ {id:"festival",when:"2025.09",name:"대학교 축제 웹",sub:"QR로 접속하는 축제 안내 · 실시간 투표 웹",role:"프론트엔드",
+  meta:["4인 팀","해커톤","본인 역할: 프론트엔드"],stack:["Web Frontend"],
+  overview:"축제 곳곳에 QR코드를 붙여, 앱 설치 없이 휴대폰으로 바로 축제 정보를 볼 수 있게 만든 웹입니다. 해커톤에서 하루 만에 초기 버전을 만들고, 이후 개선해 실제 축제에서 운영했습니다.",
+  features:["부스 위치, 푸드트럭 메뉴와 위치 안내","장기자랑 실시간 투표","QR 접속으로 앱 설치 없이 즉시 이용"],
+  learn:"실제 사용자가 휴대폰으로 쓰는 서비스를 짧은 기간에 완성하고 개선한 경험입니다."},
+ {id:"ours",when:"2025.01 – 03",name:"학생회 통합 홈페이지",sub:"총학생회 통합 관리 페이지 (프로토타입)",role:"프론트엔드 메인",
+  meta:["프로토타입까지 완성","본인 역할: 프론트엔드 메인"],stack:["Web Frontend"],link:"https://github.com/youngbin111/OURS_homepage",
+  overview:"학교와 총학생회 전체를 아우르는 통합 페이지를 기획하고 프로토타입까지 만들었습니다. 학교 SSO(통합 로그인) 연동 문제로 정식 오픈하지는 못했습니다.",
+  features:["과학생회 인스타그램 연동","공약 달성률 표시","익명 청원 게시판","조직도 표시"],
+  learn:"외부 인증(SSO) 연동 구조를 이해했고, 외부 의존성은 프로젝트 초기에 먼저 확인해야 한다는 걸 배웠습니다."},
+ {id:"sta",when:"2024.03 – 06",name:"SmartTimeTable",sub:"선이수과목 기반 시간표 추천 앱",role:"프론트엔드",
+  meta:["4인 팀","첫 팀 프로젝트","본인 역할: 프론트엔드"],stack:["Flutter/Dart","Java (Backend)","Swagger"],link:"https://github.com/simchayeon/STA",
+  overview:"선이수 과목을 확인하기 어려운 학생들을 위해, 들은 과목을 입력하면 다음 학기에 들을 수 있는 과목을 추천해 주는 시간표 앱입니다.",
+  features:["학교 과목 API 연동으로 개설 과목 검색","선이수 조건을 판별해 다음 학기 추천 과목 계산","시간표 자동 표시, 시간 중복 시 추가 제한"],
+  ts:[{t:"API 응답 구조에 대한 기준이 모호함",c:"백엔드에서 프론트로 데이터를 어떤 구조로 넘길지 합의가 없었음",s:"Swagger로 API 스펙을 문서화해 프론트와 백엔드가 데이터 구조를 합의",r:"연동 과정의 혼선 감소"}],
+  learn:"협업과 의사소통 과정을 처음 배웠고, 불편을 해소하는 것이 개발의 목표라는 관점을 얻었습니다."}
+];
+
+const SECTIONS=[["about","소개·학력"],["projects","프로젝트"],["security","보안"],["skills","기술"],["awards","수상·자격증"]];
+const reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const backIcon='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>';
+
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+
+function buildBars(){
+  document.querySelectorAll("[data-bar]").forEach(bar=>{
+    const view=bar.closest(".view").id;
+    const current=view==="project"?"projects":view;
+    bar.innerHTML=`<button class="back" data-go="${view==="project"?"projects":"home"}">${backIcon}${view==="project"?"프로젝트 목록":"처음으로"}</button>
+    <nav class="crumbs" aria-label="섹션">${SECTIONS.map(([id,l])=>`<button data-go="${id}" ${id===current?'aria-current="page"':""}>${l}</button>`).join("")}</nav>`;
+  });
+}
+
+function buildList(){
+  document.getElementById("plist").innerHTML=PROJECTS.map(p=>`
+    <button class="pitem" data-go="p-${p.id}">
+      <span class="when">${esc(p.when)}</span>
+      <span><h4>${esc(p.name)}</h4><p>${esc(p.sub)}</p></span>
+      <span class="role-tag">${esc(p.role)}</span>
+    </button>`).join("");
+}
+
+function renderProject(id){
+  const i=PROJECTS.findIndex(p=>p.id===id); if(i<0) return false;
+  const p=PROJECTS[i], prev=PROJECTS[i-1], next=PROJECTS[i+1];
+  let h=`<h1 class="page">${esc(p.name)}${p.award?`<span class="badge award" style="font-size:15px">${esc(p.award)}</span>`:""}</h1>
+  <p class="lede" style="margin-bottom:16px">${esc(p.sub)}</p>
+  <div class="meta"><span>${esc(p.when)}</span>${p.meta.map(m=>`<span>${esc(m)}</span>`).join("")}</div>
+  <div class="chips" style="margin-bottom:40px">${p.stack.map(s=>`<span class="chip">${esc(s)}</span>`).join("")}</div>
+  <div class="cols block"><div>
+    <h3 style="font-size:15px;color:var(--muted);margin-bottom:10px">개요</h3><p style="font-size:17px;margin-bottom:28px">${esc(p.overview)}</p>
+    <h3 style="font-size:15px;color:var(--muted);margin-bottom:6px">핵심 기능</h3><ul class="clean">${p.features.map(f=>`<li>${esc(f)}</li>`).join("")}</ul>
+  </div><div>`;
+  if(p.flow){h+=`<h3 style="font-size:15px;color:var(--muted);margin-bottom:10px">분석 흐름</h3><div class="flow">${p.flow.map(f=>`<div>${esc(f)}</div>`).join("<i></i>")}</div>`;
+    if(p.pipeline) h+=`<h3 style="font-size:15px;color:var(--muted);margin:24px 0 8px">정책 데이터 파이프라인</h3><p>${esc(p.pipeline)}</p>`;}
+  if(p.rolelist) h+=`<h3 style="font-size:15px;color:var(--muted);margin-bottom:6px">담당 범위</h3><ul class="clean">${p.rolelist.map(f=>`<li>${esc(f)}</li>`).join("")}</ul>`;
+  if(p.learn) h+=`<h3 style="font-size:15px;color:var(--muted);margin:${p.rolelist||p.flow?"24px":"0"} 0 8px">배운 점</h3><p>${esc(p.learn)}</p>`;
+  if(p.link) h+=`<p style="margin-top:20px"><a href="${p.link}" target="_blank" rel="noopener">GitHub 저장소 열기</a></p>`;
+  h+=`</div></div>`;
+  if(p.ts){h+=`<div class="block"><h3 style="font-size:15px;color:var(--muted);margin-bottom:14px">트러블슈팅</h3>${p.ts.map((t,k)=>`
+    <div class="ts"><h5>문제 ${k+1}. ${esc(t.t)}</h5><dl><dt>원인</dt><dd>${esc(t.c)}</dd><dt>해결</dt><dd>${esc(t.s)}</dd><dt>결과</dt><dd>${esc(t.r)}</dd></dl></div>`).join("")}</div>`;}
+  h+=`<div class="pager">${prev?`<button data-go="p-${prev.id}"><small>이전 프로젝트</small>${esc(prev.name)}</button>`:"<span></span>"}${next?`<button data-go="p-${next.id}"><small>다음 프로젝트</small>${esc(next.name)}</button>`:"<span></span>"}</div>`;
+  document.getElementById("pdetail").innerHTML=h;
+  return true;
+}
+
+function show(hash){
+  let target=hash||"home";
+  if(target.startsWith("p-")){ if(!renderProject(target.slice(2))) target="projects"; else target="project"; }
+  if(!document.getElementById(target)) target="home";
+  document.querySelectorAll(".view").forEach(v=>v.classList.toggle("active",v.id===target));
+  window.scrollTo(0,0);
+}
+
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-go]"); if(!b) return;
+  const g=b.dataset.go; location.hash=g==="home"?"":g;
+  if(g==="home") show("");
+});
+window.addEventListener("hashchange",()=>show(location.hash.slice(1)));
+
+/* cover: name decrypt */
+function decrypt(){
+  const nameEl=document.getElementById("name"), roleEl=document.getElementById("role"), tag=document.getElementById("tagline");
+  const final=["이","영","빈"], pool="0123456789ABCDEF#$%&*@";
+  const roleText="> backend developer / ai pipeline / security";
+  if(reduce){nameEl.textContent=final.join("");roleEl.textContent=roleText;tag.classList.add("on");return;}
+  nameEl.innerHTML=final.map(()=>'<span class="scr">0</span>').join("");
+  const spans=[...nameEl.children]; let frame=0;
+  const lockAt=[18,30,42];
+  const iv=setInterval(()=>{
+    frame++;
+    spans.forEach((s,i)=>{
+      if(frame>=lockAt[i]){ if(s.classList.contains("scr")){s.classList.remove("scr");s.textContent=final[i];} }
+      else s.textContent=pool[Math.floor(Math.random()*pool.length)];
+    });
+    if(frame>=lockAt[2]){clearInterval(iv);typeRole();}
+  },45);
+  function typeRole(){
+    let k=0; const t=setInterval(()=>{roleEl.textContent=roleText.slice(0,++k); if(k>=roleText.length){clearInterval(t);tag.classList.add("on");}},22);
+  }
+}
+
+buildBars(); buildList(); show(location.hash.slice(1)); decrypt();
+</script>
+</body>
+</html>
